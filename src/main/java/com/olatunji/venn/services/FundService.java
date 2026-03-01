@@ -1,8 +1,8 @@
 package com.olatunji.venn.services;
 
-import com.olatunji.venn.models.exchange.FundRequest;
-import com.olatunji.venn.models.exchange.FundResponse;
+import com.olatunji.venn.services.dtos.FundInput;
+import com.olatunji.venn.services.dtos.FundOutput;
 
 public interface FundService {
-  FundResponse loadFundsIntoCustomerAccount(FundRequest request);
+    FundOutput loadFundsIntoCustomerAccount(FundInput fundInput);
 }

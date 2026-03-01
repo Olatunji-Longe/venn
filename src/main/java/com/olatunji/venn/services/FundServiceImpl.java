@@ -3,7 +3,7 @@ package com.olatunji.venn.services;
 import com.olatunji.venn.mappers.FundMapper;
 import com.olatunji.venn.models.exchange.FundRequest;
 import com.olatunji.venn.models.exchange.FundResponse;
-import com.olatunji.venn.repositories.FundRepository;
+import com.olatunji.venn.domain.repositories.FundRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 

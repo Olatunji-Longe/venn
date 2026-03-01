@@ -1,4 +1,4 @@
-package com.olatunji.venn.repositories;
+package com.olatunji.venn.domain.repositories;
 
 import com.olatunji.venn.domain.entities.Fund;
 import java.util.Optional;

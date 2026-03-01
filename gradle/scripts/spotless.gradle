@@ -1,0 +1,17 @@
+spotless {
+    java {
+        target(
+                'src/**/*.java'
+        )
+        removeUnusedImports()
+        googleJavaFormat()
+        leadingTabsToSpaces(2)
+        trimTrailingWhitespace()
+        endWithNewline()
+        setEncoding('utf-8')
+    }
+}
+
+tasks.named('compileJava'){
+    dependsOn tasks.named('spotlessApply')
+}

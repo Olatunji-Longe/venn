@@ -1,0 +1,13 @@
+databaseChangeLog:
+  - changeSet:
+      id: create-domain-tables
+      author: olatunji.longe
+      changes:
+        - sqlFile:
+            dbms: mysql
+            encoding: UTF-8
+            endDelimiter: ';'
+            path: db/changelog/ddls/queries/init-domain-tables.sql
+            relativeToChangelogFile: false
+            splitStatements: true
+            stripComments: true

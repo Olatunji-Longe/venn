@@ -1,0 +1,5 @@
+databaseChangeLog:
+  - include:
+      file: db/changelog/ddls/db.changelog-init-domain-tables.yaml
+  - include:
+      file: db/changelog/dmls/db.changelog-init-sample-data.yaml

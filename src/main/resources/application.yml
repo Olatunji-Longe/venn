@@ -1,0 +1,20 @@
+server:
+  port: 8090
+spring:
+  application:
+    name: fund-loading-application
+  datasource:
+    url: ${DATABASE_URL}
+    username: ${DATABASE_USERNAME}
+    password: ${DATABASE_PASSWORD}
+  liquibase:
+    url: ${spring.datasource.url}
+    user: ${spring.datasource.username}
+    password: ${spring.datasource.password}
+    change-log: classpath:db/changelog/db.changelog-master.yaml
+  jpa:
+    open-in-view: false # JPA - Disable database queries from being performed during view rendering
+  h2:
+    console:
+      enabled: true
+      path: /h2-console

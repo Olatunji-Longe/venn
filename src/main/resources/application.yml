@@ -18,3 +18,14 @@ spring:
     console:
       enabled: true
       path: /h2-console
+
+customer-limits:
+  daily-amount-limit:
+    max-amount: 5000
+    max-attempts:
+  weekly-amount-limit:
+    max-amount: 20000
+    max-attempts:
+  daily-attempts-limit:
+    max-amount:
+    max-attempts: 3

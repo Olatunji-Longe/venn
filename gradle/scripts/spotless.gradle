@@ -4,7 +4,7 @@ spotless {
                 'src/**/*.java'
         )
         removeUnusedImports()
-        googleJavaFormat()
+        palantirJavaFormat()
         leadingTabsToSpaces(2)
         trimTrailingWhitespace()
         endWithNewline()

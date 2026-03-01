@@ -9,6 +9,6 @@ import org.springframework.test.context.ActiveProfiles;
 @ActiveProfiles(RunProfile.TEST)
 class FundLoadingApplicationTests {
 
-  @Test
-  void contextLoads() {}
+    @Test
+    void contextLoads() {}
 }

@@ -1,6 +1,11 @@
 package com.olatunji.venn.domain.entities;
 
-import jakarta.persistence.*;
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.Table;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.UUID;
@@ -9,55 +14,64 @@ import java.util.UUID;
 @Table(name = "funds")
 public class Fund {
 
-  @Id
-  @GeneratedValue(strategy = GenerationType.UUID)
-  private UUID id;
+    @Id
+    @GeneratedValue(strategy = GenerationType.UUID)
+    private UUID id;
 
-  @Column(name = "load_id", nullable = false)
-  private String loadId;
+    @Column(name = "load_id", nullable = false)
+    private String loadId;
 
-  @Column(name = "customer_id", nullable = false)
-  private String customerId;
+    @Column(name = "customer_id", nullable = false)
+    private String customerId;
 
-  @Column(name = "load_amount", nullable = false)
-  private BigDecimal loadAmount;
+    @Column(name = "load_amount", nullable = false)
+    private BigDecimal loadAmount;
 
-  @Column(name = "time", nullable = false)
-  private LocalDateTime time;
+    @Column(name = "time", nullable = false)
+    private LocalDateTime time;
 
-  public UUID getId() {
-    return id;
-  }
+    protected Fund() {}
 
-  public String getLoadId() {
-    return loadId;
-  }
+    public Fund(String loadId, String customerId, BigDecimal loadAmount, LocalDateTime time) {
+        this.loadId = loadId;
+        this.customerId = customerId;
+        this.loadAmount = loadAmount;
+        this.time = time;
+    }
 
-  public void setLoadId(String loadId) {
-    this.loadId = loadId;
-  }
+    public UUID getId() {
+        return id;
+    }
 
-  public String getCustomerId() {
-    return customerId;
-  }
+    public String getLoadId() {
+        return loadId;
+    }
 
-  public void setCustomerId(String customerId) {
-    this.customerId = customerId;
-  }
+    public void setLoadId(String loadId) {
+        this.loadId = loadId;
+    }
 
-  public BigDecimal getLoadAmount() {
-    return loadAmount;
-  }
+    public String getCustomerId() {
+        return customerId;
+    }
 
-  public void setLoadAmount(BigDecimal loadAmount) {
-    this.loadAmount = loadAmount;
-  }
+    public void setCustomerId(String customerId) {
+        this.customerId = customerId;
+    }
 
-  public LocalDateTime getTime() {
-    return time;
-  }
+    public BigDecimal getLoadAmount() {
+        return loadAmount;
+    }
 
-  public void setTime(LocalDateTime time) {
-    this.time = time;
-  }
+    public void setLoadAmount(BigDecimal loadAmount) {
+        this.loadAmount = loadAmount;
+    }
+
+    public LocalDateTime getTime() {
+        return time;
+    }
+
+    public void setTime(LocalDateTime time) {
+        this.time = time;
+    }
 }

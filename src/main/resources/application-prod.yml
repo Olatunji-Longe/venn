@@ -1,0 +1,22 @@
+logging:
+  structured:
+    format:
+      console: ecs
+    json:
+      add:
+        environment: production
+  pattern:
+    level: "%5p [${spring.application.name:},%X{traceId:-},%X{spanId:-}]"
+
+# Sample 10% of requests (0.0 to 1.0)
+management:
+  tracing:
+    sampling:
+      probability: 0.1
+    export:
+      enabled: false
+  # disable export to metrics collector (e.g zipkin, jaeger) on dev
+  otlp:
+    metrics:
+      export:
+        enabled: true

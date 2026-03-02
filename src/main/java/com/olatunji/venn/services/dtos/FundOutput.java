@@ -15,7 +15,7 @@ public class FundOutput {
 
     public static final FundOutput EMPTY_INSTANCE = new FundOutput();
 
-    public boolean isEmptyInstance() {
-        return null == id && null == customerId && !accepted;
+    public boolean isFullyInstantiated() {
+        return null != id && null != customerId;
     }
 }

@@ -1,4 +1,4 @@
-package com.olatunji.venn.controllers.common;
+package com.olatunji.venn.controllers.advice;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import jakarta.servlet.http.HttpServletRequest;

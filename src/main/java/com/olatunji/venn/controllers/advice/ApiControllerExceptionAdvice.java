@@ -1,22 +1,27 @@
 package com.olatunji.venn.controllers.advice;
 
-import com.olatunji.venn.controllers.common.ApiErrorResponse;
 import com.olatunji.venn.exceptions.BadRequestException;
 import com.olatunji.venn.exceptions.InternalServerException;
 import com.olatunji.venn.exceptions.ResourceNotFoundException;
+import com.olatunji.venn.filters.RequestTimingFilter;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import java.nio.charset.StandardCharsets;
 import java.util.stream.Collectors;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.exception.ExceptionUtils;
+import org.slf4j.MDC;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.converter.HttpMessageConversionException;
 import org.springframework.stereotype.Controller;
+import org.springframework.validation.Errors;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
+import org.springframework.web.util.ContentCachingRequestWrapper;
 
 @Slf4j
 @RestControllerAdvice(annotations = {RestController.class, Controller.class})
@@ -53,21 +58,51 @@ public class ApiControllerExceptionAdvice {
             final HttpServletResponse response,
             final HttpStatus httpStatus,
             final Exception ex) {
-        logException(ex, httpStatus);
+        logException(request, httpStatus, ex);
         response.setStatus(httpStatus.value());
+        response.setContentType(MediaType.APPLICATION_JSON_VALUE);
         return ApiErrorResponse.from(request, httpStatus, resolveApiErrorMessage(httpStatus, ex));
     }
 
-    private static void logException(final Exception ex, final HttpStatus httpStatus) {
+    private static void logException(
+            final HttpServletRequest request, final HttpStatus httpStatus, final Exception ex) {
+
+        Long startTime = (Long) request.getAttribute(RequestTimingFilter.START_TIME_KEY);
+        long durationMs = (startTime != null) ? (System.currentTimeMillis() - startTime) : 0;
+
+        // Add duration to MDC so it appears as a JSON field
+        MDC.put("duration_ms", String.valueOf(durationMs));
+
+        String body = "{}";
+        if (request instanceof ContentCachingRequestWrapper wrapper) {
+            final byte[] buffer = wrapper.getContentAsByteArray();
+            if (buffer.length > 0) {
+                body = new String(buffer, 0, buffer.length, StandardCharsets.UTF_8);
+            }
+        }
+
         if (httpStatus.is5xxServerError()) {
-            log.error(ex.getMessage(), ex);
+            log.error(
+                    "Request: {} {} | Status: {} | Duration: {}ms | Body: {}",
+                    request.getMethod(),
+                    request.getRequestURI(),
+                    httpStatus.getReasonPhrase(),
+                    durationMs,
+                    body,
+                    ex);
         } else {
-            log.warn(ex.getMessage(), ex);
+            log.warn(
+                    "Request: {} {} | Status: {} | Duration: {}ms | Cause: {}",
+                    request.getMethod(),
+                    request.getRequestURI(),
+                    httpStatus,
+                    durationMs,
+                    ex.getMessage());
         }
     }
 
     private static String resolveApiErrorMessage(final HttpStatus httpStatus, final Exception ex) {
-        if (ex instanceof MethodArgumentNotValidException throwable) {
+        if (ex instanceof Errors throwable) {
             return throwable.getFieldErrors().stream()
                     .map(fieldError -> "[%s ==> %s]".formatted(fieldError.getField(), fieldError.getDefaultMessage()))
                     .collect(Collectors.joining(" | "));

@@ -13,8 +13,8 @@ public class IsoDateTimeValidator implements ConstraintValidator<IsoDateTime, St
             return true; // Handled by @NotNull if needed
         }
         try {
-            // ISO_INSTANT will parse any date correctly formatted like the expected input date - e.g
-            // 2011-12-03T10:15:30Z
+            // ISO_INSTANT will parse the ISO formatted dates correctly,
+            // such as the expected input date - e.g., 2011-12-03T10:15:30Z
             DateTimeFormatter.ISO_INSTANT.parse(value);
             return true;
         } catch (DateTimeParseException ex) {

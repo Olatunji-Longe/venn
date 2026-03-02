@@ -11,8 +11,10 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface FundRepository extends JpaRepository<Fund, Long> {
+
     Optional<Fund> findByLoadIdAndCustomerId(String loadId, String customerId);
 
+    // Coalesce ensures that the JPA query returns 0 as default if no data matches the query
     @Query(
             "SELECT COALESCE(SUM(f.loadAmount), 0) FROM Fund f WHERE f.customerId = :customerId AND f.time BETWEEN :startTime AND :endTime")
     BigDecimal sumLoadAmountByCustomerIdAndDateRange(

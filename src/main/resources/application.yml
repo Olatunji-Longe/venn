@@ -18,6 +18,18 @@ spring:
     console:
       enabled: true
       path: /h2-console
+  cache:
+    type: caffeine
+    configs:
+      daily-amount:
+        maximum-size: 100000
+        expire-after-write: 1d
+      weekly-amount:
+        maximum-size: 100000
+        expire-after-write: 7d
+      daily-attempts:
+        maximum-size: 100000
+        expire-after-write: 1d
 
 customer-limits:
   daily-amount-limit:
@@ -29,3 +41,16 @@ customer-limits:
   daily-attempts-limit:
     max-amount:
     max-attempts: 3
+
+# Sample 100% of requests (0.0 to 1.0) on dev
+management:
+  tracing:
+    sampling:
+      probability: 1.0
+    export:
+      enabled: false
+  # disable export to metrics collector (e.g zipkin, jaeger) on dev
+  otlp:
+    metrics:
+      export:
+        enabled: false

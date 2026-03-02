@@ -89,14 +89,15 @@ After starting the app, visit:
 
 
 - Architecture
-  - Controller: `FundController` exposes `POST /api/v1/funds/load` and returns acceptance decisions.
+  - Controller: `FundController` exposes `POST /api/v1.0/funds/load` and returns acceptance decisions.
   - Service: `FundService` encapsulates business rules, including daily/weekly sums and daily count checks.
   - Persistence: JPA repositories over in-memory H2 for fast, isolated runs and tests.
   - Mapping: MapStruct for DTO-to-domain mapping to keep controllers lean.
-  - Configuration: `ApplicationConfiguration` registers a Jackson `JsonMapper` tuned for robustness; limit values kept in configuration properties (`CustomerLimitProperties`).
+  - Configuration: `ApplicationConfiguration` registers a Jackson `JsonMapper` tuned for robustness.
+  - Limit values kept in configuration properties (`CustomerLimitProperties`).
   - Database migrations: Liquibase manages schema evolution deterministically.
   - Testing: Unit and slice tests validate controller, service, and repository logic with representative input/output fixtures.
-  - API versioning: Version present in the URL path (`/api/v1/...`) for evolvability.
+  - API versioning: Version present in the URL path (`/api/v1.0/...`) for evolvability.
   - Caching for performance gains around data lookups when querying the database 
 
 ---
